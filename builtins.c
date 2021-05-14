@@ -23,6 +23,12 @@ int get_builtins(stack_t **stack, char *opcode, char *val, unsigned int line)
 
 	if (strcmp("push", opcode) == 0)
 	{
+		if (check_number(val))
+		{
+			free_stack(*stack);
+			fprintf(stderr, "L%d: usage: push integer\n", line);
+			exit(EXIT_FAILURE);
+		}
 		push(stack, line, atoi(val));
 		return (1);
 	}
