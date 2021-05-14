@@ -10,21 +10,20 @@
 
 void push(stack_t **stack, unsigned int line_num, int val)
 {
-	stack_t *new, *h = *stack;
+	stack_t *new;
 	(void) line_num;
 
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
-		free(new);
 		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
+		exitwrap(EXIT_FAILURE, NULL, *stack);
 	}
-	new->prev = NULL;
 	new->n = val;
-	new->next = *stack;
-	if (*stack)
-		h->prev = new;
+	if (*stack != NULL)
+		(*stack)->next = new;
+	new->next = NULL;
+	new->prev = *stack;
 	*stack = new;
 }
 
@@ -38,17 +37,21 @@ void push(stack_t **stack, unsigned int line_num, int val)
 void pop(stack_t **stack, unsigned int line_num)
 {
 	stack_t *h = *stack;
+	(void) line_num;
 
-	if (!(*stack))
+	if (h == NULL)
+		exitwrap(EXIT_FAILURE, "can't pop an empty stack", *stack);
+	if (h->prev == NULL)
 	{
-		fprintf(stderr, "L%u: can't pop an empty stack\n", line_num);
-		exit(EXIT_FAILURE);
+		free(*stack);
+		*stack = NULL;
 	}
-
-	if (h)
+	else
 	{
-		*stack = (h)->next;
+		h = h->prev;
+		h->next = NULL;
 		free(h);
+		*stack = h;
 	}
 }
 

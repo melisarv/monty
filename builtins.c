@@ -4,10 +4,9 @@
  * @stack: Stack passed in acoording to struct prototype
  * @opcode: opcode contents of file
  * @val: value contents of file
- * @line: line number of the parsed command
  * Return: 1 if builtins exist, 0 if they don't
  */
-int get_builtins(stack_t **stack, char *opcode, char *val, unsigned int line)
+int get_builtins(stack_t **stack, char *opcode, char *val)
 {
 	unsigned int i = 0;
 
@@ -24,12 +23,9 @@ int get_builtins(stack_t **stack, char *opcode, char *val, unsigned int line)
 	if (strcmp("push", opcode) == 0)
 	{
 		if (check_number(val))
-		{
-			free_stack(*stack);
-			fprintf(stderr, "L%d: usage: push integer\n", line);
-			exit(EXIT_FAILURE);
-		}
-		push(stack, line, atoi(val));
+			exitwrap(EXIT_FAILURE, "usage: push integer", *stack);
+
+		push(stack, globalvar.line_num, atoi(val));
 		return (1);
 	}
 	else
@@ -38,7 +34,7 @@ int get_builtins(stack_t **stack, char *opcode, char *val, unsigned int line)
 		{
 			if (strcmp(list[i].opcode, opcode) == 0)
 			{
-				list[i].f(stack, line);
+				list[i].f(stack, globalvar.line_num);
 				return (1);
 			}
 			i++;

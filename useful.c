@@ -40,3 +40,27 @@ int check_number(char *value)
 	}
 	return (0);
 }
+
+/**
+ * exitwrap - free things and exit the program
+ * @exitcode: exit code
+ * @exitstring: error string to print
+ * @stack: stack
+ */
+void exitwrap(int exitcode, char *exitstring, stack_t *stack)
+{
+	stack_t *ptr = stack;
+
+	if (exitstring != NULL)
+		fprintf(stderr, "L%d: %s\n", globalvar.line_num, exitstring);
+
+	while (stack != NULL)
+	{
+		ptr = stack->prev;
+		free(stack);
+		stack = ptr;
+	}
+
+	fclose(globalvar.file);
+	exit(exitcode);
+}
