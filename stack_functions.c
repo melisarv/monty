@@ -36,23 +36,24 @@ void push(stack_t **stack, unsigned int line_num, int val)
 
 void pop(stack_t **stack, unsigned int line_num)
 {
-	stack_t *h = *stack;
 	(void) line_num;
 
-	if (h == NULL)
-		exitwrap(EXIT_FAILURE, "can't pop an empty stack", *stack);
-	if (h->prev == NULL)
+	if (*stack != NULL)
 	{
-		free(*stack);
-		*stack = NULL;
+		if ((*stack)->prev != NULL)
+		{
+			*stack = (*stack)->prev;
+			free((*stack)->next);
+			(*stack)->next = NULL;
+		}
+		else
+		{
+			free(*stack);
+			*stack = NULL;
+		}
 	}
 	else
-	{
-		h = h->prev;
-		h->next = NULL;
-		free(h);
-		*stack = h;
-	}
+		exitwrap(EXIT_FAILURE, "can't pop an empty stack", *stack);
 }
 
 /**
@@ -63,23 +64,13 @@ void pop(stack_t **stack, unsigned int line_num)
  */
 void swap(stack_t **stack, unsigned int line_num)
 {
-	stack_t *h = *stack, *ptr;
+	int temp;
+	(void)line_num;
 
-	if ((*stack) == NULL || (*stack)->next == NULL)
-	{
-		fprintf(stderr, "L%u: can't swap, stack too short\n", line_num);
-		exit(EXIT_FAILURE);
-	}
+	if (len_stack(*stack) < 2)
+		exitwrap(EXIT_FAILURE, "can't swap, stack too short", *stack);
 
-	if (h && h->next)
-	{
-		ptr = h->next;
-		if (ptr->next)
-			ptr->next->prev = h;
-		h->next = ptr->next;
-		ptr->prev = NULL;
-		ptr->next = h;
-		h->prev = ptr;
-		*stack = ptr;
-	}
+	temp = (*stack)->n;
+	(*stack)->n = (*stack)->prev->n;
+	(*stack)->prev->n = temp;
 }

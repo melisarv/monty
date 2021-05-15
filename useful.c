@@ -64,3 +64,28 @@ void exitwrap(int exitcode, char *exitstring, stack_t *stack)
 	fclose(globalvar.file);
 	exit(exitcode);
 }
+
+#include "monty.h"
+
+
+/**
+ * len_stack - calculates the length of the stack
+ * @stack: head member of the stack
+ * Return: integer length of the stack
+*/
+
+int len_stack(stack_t *stack)
+{
+	stack_t *temp;
+	int i;
+
+	temp = stack;
+
+	i = 0;
+	while (temp != NULL)
+	{
+		i++;
+		temp = temp->prev;
+	}
+	return (i);
+}

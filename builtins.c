@@ -17,6 +17,9 @@ int get_builtins(stack_t **stack, char *opcode, char *val)
 		{"swap", swap},
 		{"nop", nop},
 		{"add", add},
+		{"sub", sub},
+		{"div", divi},
+		{"mul", mul},
 		{NULL, NULL}
 	};
 

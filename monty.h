@@ -56,18 +56,25 @@ typedef struct global_var
 /** Struct has been declared as global **/
 globalvar_t globalvar;
 
+
 int execute(void);
 int get_builtins(stack_t **stack, char *opcode, char *val);
+
 void push(stack_t **stack, unsigned int line_num, int val);
 void pall(stack_t **stack, unsigned int line_num);
 void pop(stack_t **stack, unsigned int line_num);
 void pint(stack_t **stack, unsigned int line_num);
 void swap(stack_t **stack, unsigned int line_num);
 void nop(stack_t **stack, unsigned int line_num);
+
 void add(stack_t **stack, unsigned int line_num);
+void sub(stack_t **stack, unsigned int line_num);
+void divi(stack_t **stack, unsigned int line_num);
+void mul(stack_t **stack, unsigned int line_num);
 
 void free_stack(stack_t *stack);
 int check_number(char *value);
 void exitwrap(int exitcode, char *exitstring, stack_t *stack);
+int len_stack(stack_t *stack);
 
 #endif

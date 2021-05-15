@@ -2,7 +2,7 @@
 
 ----
 Monty is a scripting language that is compiled into bytecodes and the purpose of this interpreter is to execute the files containing the bytecode.
- 
+
 ----
 ### Monty byte code files
 Files containing Monty byte codes usually have the .m extension. Most of the industry uses this standard but it is not required by the specification of the language. There is not more than one instruction per line. There can be any number of spaces before or after the opcode and its argument:
@@ -61,13 +61,6 @@ pop   | removes the top element of the stack
 swap  | swaps the top 2 elements of the stack
 add   |  adds the top 2 elements of the stack, stores it in the second element of the stack, and pops the stack
 nop  |  doesn't do anything
-
-----
-## File descriptions:
-Filee |  Description
---------------------- | ------------------------------
-main.c  | Contains parser and main monty interpreter
-
 
 ----
 ## Author
